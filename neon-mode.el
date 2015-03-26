@@ -47,18 +47,7 @@
   "Conf Mode starter for Neon files.
 \"Assignments\" are with `:'.
 For details see `conf-mode'."
-  (conf-mode-initialize "#" 'conf-neon-font-lock-keywords)
-  (set (make-local-variable 'conf-assignment-space)
-       conf-colon-assignment-space)
-  (set (make-local-variable 'conf-assignment-column)
-       conf-colon-assignment-column)
-  (set (make-local-variable 'conf-assignment-sign)
-       ?:)
-  (set (make-local-variable 'conf-assignment-regexp)
-       ".+?\\([ \t]*:[ \t]*\\)")
-  (setq imenu-generic-expression
-    `(("Parameters" "^[ \t]*\\(.+?\\)[ \t]*:" 1)
-      ,@(cdr imenu-generic-expression))))
+  (conf-mode-initialize "#" 'conf-neon-font-lock-keywords))
 
 (provide 'neon-mode)
 ;;; neon-mode.el ends here
