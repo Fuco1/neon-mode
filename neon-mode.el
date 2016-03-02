@@ -40,7 +40,7 @@
               "\\>")
      0 'font-lock-constant-face)
     ("\\<%\\(.*?\\)%\\>" 0 'font-lock-function-name-face)
-    ("@\\<\\(.*?\\)\\>" 0 'font-lock-type-face)
+    ("@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)
     ,@conf-colon-font-lock-keywords))
 
 (define-derived-mode neon-mode conf-colon-mode "Conf[Neon]"
