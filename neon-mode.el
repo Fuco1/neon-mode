@@ -43,6 +43,7 @@
     ("@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)
     ,@conf-colon-font-lock-keywords))
 
+;;;###autoload
 (define-derived-mode neon-mode conf-colon-mode "Conf[Neon]"
   "Conf Mode starter for Neon files.
 \"Assignments\" are with `:'.
