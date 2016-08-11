@@ -50,5 +50,8 @@
 For details see `conf-mode'."
   (conf-mode-initialize "#" 'conf-neon-font-lock-keywords))
 
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.neon\\'" . neon-mode))
+
 (provide 'neon-mode)
 ;;; neon-mode.el ends here
