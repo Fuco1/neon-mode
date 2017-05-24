@@ -31,6 +31,64 @@
 ;;; Code:
 
 (require 'conf-mode)
+(require 'thingatpt)
+
+(defcustom neon-mode-find-project-root-function (if (featurep 'projectile)
+                                                    'projectile-project-root
+                                                  'neon-mode--project-root-by-composer)
+  "Function to detect the project root."
+  :type '(choice (const :tag "Use Projectile's project root detection" projectile-project-root)
+                 (const :tag "Detect project root by composer.json presence" neon-mode--project-root-by-composer)
+                 (function :tag "Use custom function")))
+
+(defun neon-mode--project-root-by-composer ()
+  "Find the project root by looking up tree hierarchy for composer.json."
+  (locate-dominating-file (or (buffer-file-name) default-directory)
+                          "composer.json"))
+
+
+(defun neon-mode-find-project-root ()
+  "Find the project root.
+
+Uses `neon-mode-find-project-root-function' todo the actual lookup."
+  (funcall neon-mode-find-project-root-function))
+
+(defun neon-mode-find-class-file (class)
+  "Find class at point.
+
+This requires php binary to be present on the system and also
+only works for projects using composer autoloading."
+  (interactive (list (let ((thing (thing-at-point-looking-at "\\(\\w\\|\\s\\\\)+" 100)))
+                       (when thing
+                         (let ((beginning (match-beginning 0))
+                               (end (match-end 0)))
+                           (buffer-substring-no-properties beginning end))))))
+  (when class
+    (let ((root (neon-mode-find-project-root)))
+      (when root
+        (let ((file (concat root "/" "neon_mode_class_loader.php")))
+          (unwind-protect
+              (progn
+                (with-temp-file file
+                  ;; TODO: make this file static in the package
+                  ;; directory and read the include path as an
+                  ;; argument
+                  (insert "<?php
+$autoloader = include __DIR__ . '/vendor/autoload.php';
+$path = $autoloader->findFile($argv[1]);
+if (is_string($path)) {
+    $result = realpath($path);
+} else {
+    $result = false;
+}
+echo json_encode($result);"))
+                (let ((path (with-temp-buffer
+                              (call-process "php" nil t nil file class)
+                              (json-read-from-string (buffer-string)))))
+                  (when path
+                    (push-mark)
+                    (find-file path))))
+            (delete-file file)))))))
 
 (defvar conf-neon-font-lock-keywords
   `(
@@ -42,6 +100,12 @@
     ("\\<%\\(.*?\\)%\\>" 0 'font-lock-function-name-face)
     ("@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)
     ,@conf-colon-font-lock-keywords))
+
+(defvar neon-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "M-'") 'neon-mode-find-class-file)
+    map)
+  "Neon mode key map.")
 
 ;;;###autoload
 (define-derived-mode neon-mode conf-colon-mode "Conf[Neon]"
