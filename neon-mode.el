@@ -100,6 +100,7 @@ echo json_encode($result);"))
      0 'font-lock-constant-face)
     ("\\<%\\(.*?\\)%\\>" 0 'font-lock-keyword-face)
     ("@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)
+    ("::\\(\\sw+?\\)\\>" 1 'font-lock-function-name-face)
     ,@conf-colon-font-lock-keywords))
 
 (defvar neon-mode-map
