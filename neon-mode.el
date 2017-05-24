@@ -98,7 +98,7 @@ echo json_encode($result);"))
                                   "enabled" "disabled"))
               "\\>")
      0 'font-lock-constant-face)
-    ("\\<%\\(.*?\\)%\\>" 0 'font-lock-function-name-face)
+    ("\\<%\\(.*?\\)%\\>" 0 'font-lock-keyword-face)
     ("@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)
     ,@conf-colon-font-lock-keywords))
 
