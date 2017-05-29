@@ -66,29 +66,20 @@ only works for projects using composer autoloading."
   (when class
     (let ((root (neon-mode-find-project-root)))
       (when root
-        (let ((file (concat root "/" "neon_mode_class_loader.php")))
-          (unwind-protect
-              (progn
-                (with-temp-file file
-                  ;; TODO: make this file static in the package
-                  ;; directory and read the include path as an
-                  ;; argument
-                  (insert "<?php
-$autoloader = include __DIR__ . '/vendor/autoload.php';
-$path = $autoloader->findFile($argv[1]);
+        (let ((path (with-temp-buffer
+                      (call-process "php" nil t nil "-r" "
+$autoloader = include ($argv[1] . '/vendor/autoload.php');
+$path = $autoloader->findFile($argv[2]);
 if (is_string($path)) {
     $result = realpath($path);
 } else {
     $result = false;
 }
-echo json_encode($result);"))
-                (let ((path (with-temp-buffer
-                              (call-process "php" nil t nil file class)
-                              (json-read-from-string (buffer-string)))))
-                  (when path
-                    (push-mark)
-                    (find-file path))))
-            (delete-file file)))))))
+echo json_encode($result);" root class)
+                      (json-read-from-string (buffer-string)))))
+          (when path
+            (push-mark)
+            (find-file path)))))))
 
 (defvar conf-neon-font-lock-keywords
   `(
