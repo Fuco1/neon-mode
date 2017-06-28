@@ -90,7 +90,7 @@ echo json_encode($result);" root class)
               "\\>")
      0 'font-lock-constant-face)
     ("\\<%\\(.*?\\)%\\>" 0 'font-lock-keyword-face)
-    ("@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)
+    ("[^[:ascii:]]@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)
     ("::\\(\\sw+?\\)\\>" 1 'font-lock-function-name-face)
     ,@conf-colon-font-lock-keywords))
 
