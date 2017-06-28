@@ -6,7 +6,11 @@ Major mode for editing neon files: http://ne-on.org/
 
 ## Syntax highlighting
 
-The mode provides some extra syntax highlighting on top of `conf-colon-mode`, specifically for the `@entities` and `%parameters%`.
+The mode provides some extra syntax highlighting on top of `conf-colon-mode`, specifically for the `@entities` and `%parameters%`, `::methodCalls` and `$variable`-style setup.
+
+All the features should be demonstrated on the following screenshots (the colors of various elements use `font-lock` faces so they will look compatible with your theme).
+
+![font-lock](./img/font-lock.png)
 
 ## Jump-to-definition
 
