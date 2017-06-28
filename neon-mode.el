@@ -92,6 +92,7 @@ echo json_encode($result);" root class)
     ("\\<%\\(.*?\\)%\\>" 0 'font-lock-keyword-face)
     ("[^[:ascii:]]@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)
     ("::\\(\\sw+?\\)\\>" 1 'font-lock-function-name-face)
+    ("\\_<\\$\\(.*?\\)\\_>" 1 'font-lock-variable-name-face)
     ,@conf-colon-font-lock-keywords))
 
 (defvar neon-mode-map
