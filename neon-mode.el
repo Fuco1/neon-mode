@@ -83,11 +83,11 @@ echo json_encode($result);" root class)
 
 (defvar conf-neon-font-lock-keywords
   `(
-    (,(concat "\\<" (regexp-opt '("true" "True" "TRUE" "yes" "Yes"
+    (,(concat "\\_<" (regexp-opt '("true" "True" "TRUE" "yes" "Yes"
                                   "YES" "on" "On" "ON" "false" "False"
                                   "FALSE" "no" "No" "NO" "off" "Off" "OFF"
                                   "enabled" "disabled"))
-              "\\>")
+              "\\_>")
      0 'font-lock-constant-face)
     ("\\<%\\(.*?\\)%\\>" 0 'font-lock-keyword-face)
     ("[^[:ascii:]]@\\_<\\(.*?\\)\\_>" 0 'font-lock-type-face)
