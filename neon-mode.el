@@ -93,6 +93,12 @@ echo json_encode($result);" root class)
     ("[^[:alnum:]]\\(@\\_<\\(.*?\\)\\_>\\)" 1 'font-lock-type-face)
     ("::\\(\\sw+?\\)\\>" 1 'font-lock-function-name-face)
     ("\\_<\\$\\(.*?\\)\\_>" 1 'font-lock-variable-name-face)
+    ("\\(\\sw+?\\)\\>(.*?="
+     (1 'font-lock-type-face)
+     ("\\<\\(\\sw+?\\)\\>[[:blank:]]*=[[:blank:]]*\\<\\(\\sw+?\\)\\>"
+      (prog1 (line-end-position) (search-backward "("))
+      nil
+      (1 'font-lock-variable-name-face)))
     ,@conf-colon-font-lock-keywords))
 
 (defvar neon-mode-map
