@@ -99,7 +99,15 @@ echo json_encode($result);" root class)
       (prog1 (line-end-position) (search-backward "("))
       nil
       (1 'font-lock-variable-name-face)))
-    ,@conf-colon-font-lock-keywords))
+    ,@conf-colon-font-lock-keywords
+
+    ;; Fix the case where there is a value of an array of the form:
+    ;; - foo:bar
+    ;; The default conf-colon-font-lock-keywords setup marks the `-
+    ;; foo' as the key name, where the `foo' is in fact part of the
+    ;; value of the array.
+    ("^[ \t]*-[ \t]+.+?[ \t]*:" 0 nil t)
+    ))
 
 (defvar neon-mode-map
   (let ((map (make-sparse-keymap)))
