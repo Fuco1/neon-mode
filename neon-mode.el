@@ -32,6 +32,7 @@
 
 (require 'conf-mode)
 (require 'thingatpt)
+(require 'json)
 
 (defcustom neon-mode-find-project-root-function (if (featurep 'projectile)
                                                     'projectile-project-root
