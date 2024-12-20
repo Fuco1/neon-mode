@@ -1,4 +1,4 @@
-;;; neon-mode.el --- Simple major mode for editing neon files
+;;; neon-mode.el --- Simple major mode for editing neon files  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2015-2017 Matúš Goljer <matus.goljer@gmail.com>
 
@@ -7,6 +7,7 @@
 ;; Version: 1.1.0
 ;; Created: 26th March 2015
 ;; Keywords: conf
+;; Package-Requires: ((emacs "24.1"))
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -32,11 +33,17 @@
 
 (require 'conf-mode)
 (require 'thingatpt)
+(require 'json)
+
+(defgroup neon ()
+  "Major mode for editing neon files."
+  :group 'languages)
 
 (defcustom neon-mode-find-project-root-function (if (featurep 'projectile)
                                                     'projectile-project-root
                                                   'neon-mode--project-root-by-composer)
   "Function to detect the project root."
+  :group 'neon
   :type '(choice (const :tag "Use Projectile's project root detection" projectile-project-root)
                  (const :tag "Detect project root by composer.json presence" neon-mode--project-root-by-composer)
                  (function :tag "Use custom function")))
@@ -54,7 +61,7 @@ Uses `neon-mode-find-project-root-function' todo the actual lookup."
   (funcall neon-mode-find-project-root-function))
 
 (defun neon-mode-find-class-file (class)
-  "Find class at point.
+  "Find CLASS at point.
 
 This requires php binary to be present on the system and also
 only works for projects using composer autoloading."
